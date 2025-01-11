@@ -1,6 +1,6 @@
 from repository import Repository
-from typing import Any
+from pymongo.collection import Collection
 
 class MongoDBORM(Repository):
-    def __init__(self, repository: Any):
+    def __init__(self, repository: Collection):
         super().__init__(repository)
