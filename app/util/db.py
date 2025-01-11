@@ -19,9 +19,12 @@ class DB:
         # Might use different database or clustors on development, production or testing.
         # if ENVIORNMENT == "development":
         #     pass
-        mongodb = MongoDB()
-        self._db = mongodb
-        self._user_repository = UserRepository(mongodb.get_collection(USER_COLLECTION))
+        self._init_mongodb
 
     def get_user_repository(self) -> Repository:
         return self._user_repository
+
+    def _init_mongodb(self) -> None:
+        mongodb = MongoDB()
+        self._db = mongodb
+        self._user_repository = UserRepository(mongodb.get_collection(USER_COLLECTION))
