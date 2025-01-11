@@ -12,21 +12,36 @@ class Repository(ABC):
         self._repository = repository
 
     @abstractmethod
-    def create(self, schema: Any):
+    def insert(self, schema: Any):
+        """
+        Inserts a schema into the given <self._repository>.
+        """
         pass
 
     @abstractmethod
     def get(self, filter: dict):
+        """
+        Retrieves a schema from <self._repository> with the applied filter.
+        """
         pass
 
     @abstractmethod
     def get_all(self, filter: dict):
+        """
+        Retrieves all schemas from <self._repository> with the applied filter.
+        """
         pass
 
     @abstractmethod
     def delete(self, filter: dict):
+        """
+        Deletes a schema from <self._repository> with the applied filter.
+        """
         pass
 
     @abstractmethod
     def update(self, filter: dict):
+        """
+        Updates a schema from <self._repository> with the applied filter.
+        """
         pass
