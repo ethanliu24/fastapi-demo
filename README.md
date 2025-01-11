@@ -1,1 +1,42 @@
 # fastapi-demo
+
+## Installation
+
+To contribute or run the app locally, clone the repo and step into it (i.e. `cd fastapi-demo`).
+
+### Software Prerequisite
+* [Python 3.9+](https://www.python.org/downloads/)
+* [pip](https://packaging.python.org/en/latest/tutorials/installing-packages/) (latest version, if you have pip it's the best to upgrade it first)
+
+### Installing dependencies
+1. Create a Python virtual enviornment if one isn't present (see [FAQ](#faq))
+2. Start a Python virtual enviornment (see [FAQ](#faq))
+3. Run this line in the terminal: `pip install -r requirement`
+
+### Running the app
+1. Start a Python virtual enviornment. Do this for every terminal session running this project.
+2. In the command line, enter `fastapi dev {TODO path/to/server.py}`. This will keep the server running.
+3. To close the server, `{TODO Ctrl + C ?}`
+
+## FAQ
+Everything in a code block with a "$" infront are meant to be run in a terminal*
+
+1. Create a Python virtual enviornment:
+> ```
+> # this should create a .venv/ directory and shouldn't be commited into version control
+> $ python -m venv .venv
+> ```
+
+2. Entering a Python enviornment (run in terminal):
+* MacOS & Linux: `source .venv/bin/activate`
+* Windoes Powershell: `.venv\Scripts\Activate.ps1`
+* Windows Bash: `source .venv/Scripts/activate`
+
+3. Exiting a Python enviornment (run in terminal):
+* MacOS: `deactivate`
+
+4. Checking if you are in the right virtual enviornment:
+> ```
+> # should return a path to the .venv/ directory in this project
+> $ which python3
+> ```
