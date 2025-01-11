@@ -13,12 +13,13 @@ To contribute or run the app locally, clone the repo and step into it (i.e. `cd 
 2. Start a Python virtual enviornment (see [FAQ](#faq)).
 3. Run this line in the terminal: `pip install -r requirement`.
 
-### Running the app
+## Running locally
 1. Load the enviornment variables in `.env`.
 2. Start a Python virtual enviornment. Do this for every terminal session running this project.
-3. In the command line, enter `fastapi dev app/server.py`. This will keep the server running.
-4. Navigate to `http://127.0.0.1:8000/`.
-5. To close the server, type `Ctrl + C` in the terminal.
+3. Optional: avoid Python creating `__pycache__` directories (see [FAQ](#faq)).
+4. In the command line, enter `fastapi dev app/server.py`. This will keep the server running.
+5. Navigate to `http://127.0.0.1:8000/`.
+6. To close the server, type `Ctrl + C` in the terminal.
 
 ## FAQ
 Everything in a code block with a "$" infront are meant to be run in a terminal*
@@ -49,3 +50,7 @@ Everything in a code block with a "$" infront are meant to be run in a terminal*
 * Do `Ctrl + Shift + P`
 * Type in `Python: Select Interpreter`
 * Select the current .venv enviornment
+
+6. Python keeps generating `__pycache__/` directories, and I don't want it:
+* Go to `.venv/bin/activate`
+* Paste in `export PYTHONDONTWRITEBYTECODE=1` somewhere
