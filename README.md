@@ -17,7 +17,8 @@ To contribute or run the app locally, clone the repo and step into it (i.e. `cd 
 1. Load the enviornment variables in `.env`.
 2. Start a Python virtual enviornment. Do this for every terminal session running this project.
 3. In the command line, enter `fastapi dev app/server.py`. This will keep the server running.
-4. To close the server, `{TODO Ctrl + C ?}`
+4. Navigate to `http://127.0.0.1:8000/`.
+5. To close the server, type `Ctrl + C` in the terminal.
 
 ## FAQ
 Everything in a code block with a "$" infront are meant to be run in a terminal*
