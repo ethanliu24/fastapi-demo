@@ -4,7 +4,7 @@ from database.database import Database
 from database.mongodb import MongoDB
 from repository.repository import Repository
 from repository.mongodb import UserRepository as UserRepository
-from settings import ENVIORNMENT, USER_COLLECTION
+from config.settings import ENVIORNMENT, USER_COLLECTION
 
 class DB:
     """

@@ -1,7 +1,7 @@
 from database.database import Database
 from pymongo import MongoClient
 from pymongo.database import Database as MongoDatabase
-from settings import MONGO_DB_CONNECTION_STRING, DEMO_CLUSTER
+from config.settings import MONGO_DB_CONNECTION_STRING, DEMO_CLUSTER
 
 class MongoDB(Database):
     """
