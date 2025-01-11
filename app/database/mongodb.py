@@ -9,20 +9,20 @@ class MongoDB(Database):
     """
 
     _client: MongoClient
-    _demo_cluster: MongoDatabase
+    _cluster: MongoDatabase
 
     def __init__(self):
-      self.connect()
+        self.connect()
 
     def connect(self) -> None:
-      """ Makes connection to MongoDB atlas. """
-      self._client = MongoClient(MONGO_DB_CONNECTION_STRING)
-      self._demo_cluster = self._client[DEMO_CLUSTER]
-      print("Connected to MongoDB!")
+        """ Makes connection to MongoDB atlas. """
+        self._client = MongoClient(MONGO_DB_CONNECTION_STRING)
+        self._demo_cluster = self._client[DEMO_CLUSTER]
+        print("Connected to MongoDB!")
 
     def disconnect(self) -> None:
-      """ Close the MongoDB connection. """
-      self._client.close()
+        """ Close the MongoDB connection. """
+        self._client.close()
 
     def get_collection(self, collection_name: str):
-       return self._demo_cluster[collection_name]
+        return self._demo_cluster[collection_name]
