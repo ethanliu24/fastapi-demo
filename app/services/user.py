@@ -15,6 +15,9 @@ class UserServices:
         self._user_repository = user_repository
 
     async def create_user(self, user_data: StandardUserSignUp) -> User:
+        if self._user_repository.exists({ "email": user_data.email }):
+            ValueError("User with this email exists. Please use another one.")
+            
         creation_time = datetime.now()
         user = User(
             _id = ObjectId(),

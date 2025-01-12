@@ -40,3 +40,10 @@ class Repository(ABC):
         Updates a data_model from <self._repository> with the applied filter.
         """
         pass
+
+    @abstractmethod
+    def exists(self, query: dict) -> bool:
+        """
+        Check if a model exists in <self._repository> using the given filter.
+        """
+        pass
