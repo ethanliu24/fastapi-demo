@@ -1,5 +1,3 @@
-# For dependency injection for database.
-
 from database.database import Database
 from database.mongodb import MongoDB
 from repository.repository import Repository
@@ -13,8 +11,8 @@ from config.settings import (
 
 class DB:
     """
-    Wrapper class for accessing a database.
-    Might use different database or clustors on development, production or testing.
+    Wrapper class for databases. Services in this app will refer to this class to access different
+    databases. Might use different database or clustors on development, production or testing.
     """
 
     _db: Database
