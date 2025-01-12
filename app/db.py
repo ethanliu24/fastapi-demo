@@ -1,7 +1,7 @@
 from database.db_manager import DBManager
 from database.mongodb import MongoDB
-from .repository.repository import Repository
-from .repository.mongodb import UserRepository as UserRepository
+from .repositories.repository import Repository
+from .repositories.mongodb import UserRepository as UserRepository
 from config.settings import (
     ENVIORNMENT,
     USER_COLLECTION

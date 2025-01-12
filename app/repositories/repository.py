@@ -7,36 +7,36 @@ class Repository(ABC):
     """
 
     @abstractmethod
-    def insert(self, schema: BaseModel) -> None:
+    def insert(self, model: BaseModel) -> None:
         """
-        Inserts a schema into the given <self._repository>.
+        Inserts a data_model into the given <self._repository>.
         """
         pass
 
     @abstractmethod
     def get(self, filter: dict) -> dict:
         """
-        Retrieves a schema from <self._repository> with the applied filter.
+        Retrieves a data_model from <self._repository> with the applied filter.
         """
         pass
 
     @abstractmethod
     def get_all(self, filter: dict) -> list[dict]:
         """
-        Retrieves all schemas from <self._repository> with the applied filter.
+        Retrieves all data_models from <self._repository> with the applied filter.
         """
         pass
 
     @abstractmethod
     def delete(self, filter: dict) -> dict:
         """
-        Deletes a schema from <self._repository> with the applied filter.
+        Deletes a data_model from <self._repository> with the applied filter.
         """
         pass
 
     @abstractmethod
     def update(self, filter: dict) -> dict:
         """
-        Updates a schema from <self._repository> with the applied filter.
+        Updates a data_model from <self._repository> with the applied filter.
         """
         pass
