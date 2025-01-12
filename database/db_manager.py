@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class Database(ABC):
+class DBManager(ABC):
     """
     Abstract class to standardize databases.
     """
@@ -16,4 +16,3 @@ class Database(ABC):
     @abstractmethod
     def get_collection(self, collection_name: str):
         pass
-    

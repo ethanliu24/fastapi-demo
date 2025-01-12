@@ -1,9 +1,9 @@
-from database.database import Database
+from .db_manager import DBManager
 from pymongo import MongoClient
 from pymongo.database import Database as MongoDatabase
 from config.settings import MONGO_DB_CONNECTION_STRING, DEMO_DB
 
-class MongoDB(Database):
+class MongoDB(DBManager):
     """
     A repository class for MongoDB.
     """
