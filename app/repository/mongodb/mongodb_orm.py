@@ -7,14 +7,16 @@ class MongoDBORM(Repository):
     The parent class that performs general CRUD operations on MongoDB in the given repository.
     """
 
-    def __init__(self, repository: Collection) -> None:
-        super().__init__(repository)
+    _repository: Collection
 
-    def insert(self, schema: BaseModel) -> dict:
+    def __init__(self, repository: Collection) -> None:
+        self._repository = repository
+
+    def insert(self, schema: BaseModel) -> None:
         """
         Inserts a schema into the given <self._repository>.
         """
-        pass
+        self._repository.insert_one(schema.__dict__)
 
     def get(self, filter: dict) -> dict:
         """

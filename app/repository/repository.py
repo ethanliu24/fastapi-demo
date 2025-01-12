@@ -1,19 +1,13 @@
 from abc import ABC, abstractmethod
 from pydantic import BaseModel
-from typing import Any
 
 class Repository(ABC):
     """
     Base abstract ORM for crud operations.
     """
 
-    _repository: BaseModel
-
-    def __init__(self, repository: Any) -> None:
-        self._repository = repository
-
     @abstractmethod
-    def insert(self, schema: BaseModel) -> dict:
+    def insert(self, schema: BaseModel) -> None:
         """
         Inserts a schema into the given <self._repository>.
         """
