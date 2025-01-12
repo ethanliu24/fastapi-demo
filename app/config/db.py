@@ -20,7 +20,7 @@ class DB:
 
     def __init__(self) -> None:
         if ENVIORNMENT == "development":
-            self._init_mongodb(MONGO_DB_CONNECTION_STRING, DEMO_CLUSTER)
+            self._init_mongodb()
         elif ENVIORNMENT == "production":
             raise Exception("Production enviornment not supported yet")
         else:
