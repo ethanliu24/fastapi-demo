@@ -1,10 +1,10 @@
-from .repository import Repository
+from ..repository import Repository
 from pymongo.collection import Collection
 from pydantic import BaseModel
 
-class MongoRepository(Repository):
+class MongoDBORM(Repository):
     """
-    Performs general CRUD operations on MongoDB in the given repository.
+    The parent class that performs general CRUD operations on MongoDB in the given repository.
     """
 
     _repository: Collection
@@ -22,7 +22,7 @@ class MongoRepository(Repository):
         """
         Retrieves a data_model from <self._repository> with the applied filter.
         """
-        return self._repository.find_one(filter)
+        pass
 
     def get_all(self, filter: dict) -> dict:
         """
