@@ -1,7 +1,7 @@
-from db_manager.db_manager import DBManager
-from db_manager.mongodb import MongoDB
-from repository.repository import Repository
-from repository.mongodb import UserRepository as UserRepository
+from database.db_manager import DBManager
+from database.mongodb import MongoDB
+from .repository.repository import Repository
+from .repository.mongodb import UserRepository as UserRepository
 from config.settings import (
     ENVIORNMENT,
     USER_COLLECTION
