@@ -10,6 +10,5 @@ class User(BaseModel):
     email: EmailStr
     username: str
     password: str
-    password_confirmation: str
     created_at: datetime
     modified_at: datetime
