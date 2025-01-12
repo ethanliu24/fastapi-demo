@@ -8,7 +8,7 @@ class UserRepository(MongoDBORM):
 
     def insert(self, user: BaseModel) -> None:
         """
-        Inserts a schema into the given <self._repository>.
+        Inserts a data_model into the given <self._repository>.
 
         Precondition:
         - <user>'s email is unique, i.e. not in the database
