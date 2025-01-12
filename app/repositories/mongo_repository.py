@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 class MongoRepository(Repository):
     """
-    The parent class that performs general CRUD operations on MongoDB in the given repository.
+    Performs general CRUD operations on MongoDB in the given repository.
     """
 
     _repository: Collection
