@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from repositories.repository import Repository
+from ...repositories.repository import Repository
 from ...dependencies import get_user_repository
 
 router = APIRouter(

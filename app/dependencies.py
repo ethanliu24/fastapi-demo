@@ -2,7 +2,7 @@
 from .db import DB
 from fastapi import Depends
 from typing import Annotated
-from repositories.repository import Repository
+from .repositories.repository import Repository
 
 
 def get_db() -> DB:
