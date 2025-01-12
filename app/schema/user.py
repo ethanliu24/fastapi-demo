@@ -1,5 +1,5 @@
 from bson import ObjectId
-import datetime
+from datetime import datetime
 from pydantic import BaseModel, EmailStr, field_validator
 from typing import Optional
 
@@ -25,7 +25,7 @@ class User(BaseModel):
     @field_validator("password_confirmation")
     def confirm_password(confirmation: str, fields: dict) -> str:
         # TODO edit to hash
-        password = fields.get["password"]
+        password = fields.data.get("password")
         if confirmation != password:
             raise ValueError("Password doesn't match")
         return confirmation
