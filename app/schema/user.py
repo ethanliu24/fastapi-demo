@@ -25,7 +25,7 @@ class User(BaseModel):
     @field_validator("password_confirmation")
     def confirm_password(confirmation: str, fields: dict) -> str:
         # TODO edit to hash
-        password = fields.get["password"]
+        password = fields.data.get("password")
         if confirmation != password:
             raise ValueError("Password doesn't match")
         return confirmation
