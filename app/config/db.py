@@ -1,5 +1,5 @@
-from database.database import Database
-from database.mongodb import MongoDB
+from db_manager.db_manager import DBManager
+from db_manager.mongodb import MongoDB
 from repository.repository import Repository
 from repository.mongodb import UserRepository as UserRepository
 from config.settings import (
@@ -13,7 +13,7 @@ class DB:
     databases. Might use different database or clustors on development, production or testing.
     """
 
-    _db: Database
+    _db: DBManager
     _user_repository: Repository
 
     def __init__(self) -> None:
