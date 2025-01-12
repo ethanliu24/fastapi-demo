@@ -4,8 +4,6 @@ from repository.repository import Repository
 from repository.mongodb import UserRepository as UserRepository
 from config.settings import (
     ENVIORNMENT,
-    MONGO_DB_CONNECTION_STRING,
-    DEMO_CLUSTER,
     USER_COLLECTION
 )
 
@@ -32,4 +30,8 @@ class DB:
     def _init_mongodb(self) -> None:
         mongodb = MongoDB()
         self._db = mongodb
-        self._user_repository = UserRepository(mongodb.get_collection(USER_COLLECTION))
+
+        user_collection = mongodb.get_collection(USER_COLLECTION)
+        user_collection.create_index("email", unique=True)
+        self._user_repository = UserRepository(user_collection)
+

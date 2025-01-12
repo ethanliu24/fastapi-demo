@@ -1,7 +1,7 @@
 from database.database import Database
 from pymongo import MongoClient
 from pymongo.database import Database as MongoDatabase
-from config.settings import MONGO_DB_CONNECTION_STRING, DEMO_CLUSTER
+from config.settings import MONGO_DB_CONNECTION_STRING, DEMO_DB
 
 class MongoDB(Database):
     """
@@ -17,7 +17,7 @@ class MongoDB(Database):
     def connect(self) -> None:
         """ Makes connection to MongoDB atlas. """
         self._client = MongoClient(MONGO_DB_CONNECTION_STRING)
-        self._demo_cluster = self._client[DEMO_CLUSTER]
+        self._demo_db = self._client[DEMO_DB]
         print("Connected to MongoDB!")
 
     def disconnect(self) -> None:
@@ -25,4 +25,4 @@ class MongoDB(Database):
         self._client.close()
 
     def get_collection(self, collection_name: str):
-        return self._demo_cluster[collection_name]
+        return self._demo_db[collection_name]

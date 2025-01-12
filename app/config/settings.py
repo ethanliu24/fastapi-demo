@@ -8,5 +8,5 @@ load_dotenv(dotenv_path)
 ENVIORNMENT = os.environ.get("ENVIORNMENT")
 
 MONGO_DB_CONNECTION_STRING = os.environ.get("MONGO_DB_CONNECTION_STRING")
-DEMO_CLUSTER = "DemoCluster"
+DEMO_DB = "Demo"
 USER_COLLECTION = "users"
