@@ -1,7 +1,7 @@
 from datetime import datetime
 from ..repositories.repository import Repository
 from ..repositories.user_repository import UserRepository
-from ..models.user import User
+from ..models.user import User, UserUpdate
 from ..models.authentication import StandardUserSignUp
 from ..utils.utils import generate_id
 from typing import Union
@@ -17,11 +17,10 @@ class UserServices:
         self._user_repository = user_repository
 
     def get_user(self, user_id: str) -> User:
-        id = { "id": user_id }
-        if not self._user_repository.exists(id):
+        if not self._user_repository.user_id_exists(user_id):
             raise ValueError("Invalid user ID")
 
-        user = self._user_repository.get(id)
+        user = self._user_repository.get_user_by_id(user_id)
         return User(**user)
 
     def get_all_users(self, age: int | None, min_age: int | None, max_age: int | None) -> list[User]:
@@ -29,7 +28,7 @@ class UserServices:
         return [User(**data) for data in user_datas]
 
     def create_user(self, user_data: StandardUserSignUp) -> User:
-        if self._user_repository.exists({ "email": user_data.email }):
+        if self._user_repository.email_exists(user_data.email):
             raise ValueError("User with this email exists. Please use another one.")
 
         creation_time = datetime.now()
@@ -45,3 +44,19 @@ class UserServices:
 
         self._user_repository.insert(user)
         return user
+
+    def update_user(self, user_id: str, new_data: UserUpdate) -> None:
+        user = self.get_user(user_id)
+
+        user.username = new_data.username
+        user.password = new_data.password
+        user.email = new_data.email
+        user.age = new_data.age
+        user.modified_at = datetime.now()
+
+        self._user_repository.update_user(user_id, user)
+
+    def delete_user(self, user_id: str) -> bool:
+        deleted = self._user_repository.delete_user(user_id)
+        if not deleted:
+            raise ValueError("User not found.")
