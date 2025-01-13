@@ -29,9 +29,10 @@ class UserServices:
         creation_time = datetime.now()
         user = User(
             id = generate_id(),
-            username = user_data.username,
             email = user_data.email,
+            username = user_data.username,
             password = user_data.password,
+            age = user_data.age,
             created_at = creation_time,
             modified_at = creation_time
         )

@@ -3,8 +3,15 @@ from pydantic import BaseModel, EmailStr, field_validator
 class StandardUserSignUp(BaseModel):
     email: EmailStr
     username: str
+    age: int
     password: str
     password_confirmation: str
+
+    @field_validator("age")
+    def is_old_enough(age: int) -> int:
+        if age < 13:
+            raise ValueError("You must be over 13 to register.")
+        return age
 
     @field_validator("password")
     def validate_password(password: str) -> str:
