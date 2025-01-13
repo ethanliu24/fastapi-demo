@@ -1,8 +1,8 @@
 from datetime import datetime
-from bson import ObjectId
 from ..repositories.repository import Repository
 from ..models.user import User
 from ..models.authentication import StandardUserSignUp
+from ..utils.utils import generate_id
 
 class UserServices:
     """
@@ -14,13 +14,21 @@ class UserServices:
     def __init__(self, user_repository: Repository):
         self._user_repository = user_repository
 
-    async def create_user(self, user_data: StandardUserSignUp) -> User:
+    def get_user(self, user_id: str) -> User:
+        id = { "id": user_id }
+        if not self._user_repository.exists(id):
+            raise ValueError("Invalid user ID")
+
+        user = self._user_repository.get(id)
+        return User(**user)
+
+    def create_user(self, user_data: StandardUserSignUp) -> User:
         if self._user_repository.exists({ "email": user_data.email }):
-            ValueError("User with this email exists. Please use another one.")
-            
+            raise ValueError("User with this email exists. Please use another one.")
+
         creation_time = datetime.now()
         user = User(
-            _id = ObjectId(),
+            id = generate_id(),
             username = user_data.username,
             email = user_data.email,
             password = user_data.password,

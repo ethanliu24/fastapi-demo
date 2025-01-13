@@ -1,4 +1,3 @@
-from bson import ObjectId
 from datetime import datetime
 from pydantic import BaseModel, EmailStr
 
@@ -6,7 +5,7 @@ class User(BaseModel):
     """
     Represents an application user.
     """
-    _id: ObjectId
+    id: str
     email: EmailStr
     username: str
     password: str
