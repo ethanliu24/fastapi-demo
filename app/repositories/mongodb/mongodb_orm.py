@@ -35,7 +35,7 @@ class MongoDBORM(Repository):
         Deletes a data_model from <self._repository> with the applied filter.
         """
         res = self._repository.delete_one(filter)
-        return res.acknowledged
+        return res.deleted_count > 0
 
     def update(self, query: dict, new_data: dict) -> None:
         """
