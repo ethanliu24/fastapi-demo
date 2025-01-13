@@ -12,3 +12,14 @@ class User(BaseModel):
     age: int
     created_at: datetime
     modified_at: datetime
+
+class UserUpdate(BaseModel):
+    """
+    Information to send for updating user
+    """
+    # should validate password as well, maybe make a util function
+    email: EmailStr
+    username: str
+    password: str
+    password_confirmation: str
+    age: int

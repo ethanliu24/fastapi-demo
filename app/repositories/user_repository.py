@@ -16,3 +16,11 @@ class UserRepository(ABC):
     @abstractmethod
     def user_id_exists(self, user_id: str) -> bool:
         pass
+
+    @abstractmethod
+    def get_user_by_id(self, user_id: str) -> User:
+        pass
+
+    @abstractmethod
+    def update_user(self, user_id: str) -> None:
+        pass

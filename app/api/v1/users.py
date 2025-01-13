@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from ...dependencies import get_user_services
 from ...services.user import UserServices
-from ...models.user import User
+from ...models.user import User, UserUpdate
 from ...models.authentication import StandardUserSignUp
 
 router = APIRouter(
@@ -44,8 +44,12 @@ def get_user(
 
 
 @router.put("/{user_id}")
-async def get_user():
-    pass
+async def get_user(
+    user_id: str,
+    new_data: UserUpdate,
+    user_services: UserServices = Depends(get_user_services)
+) -> None:
+    user_services.update_user(user_id, new_data)
 
 
 @router.delete("/{user_id}")

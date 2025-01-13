@@ -36,11 +36,11 @@ class MongoDBORM(Repository):
         """
         pass
 
-    def update(self, filter: dict) -> dict:
+    def update(self, query: dict, new_data: dict) -> None:
         """
         Updates a data_model from <self._repository> with the applied filter.
         """
-        pass
+        self._repository.update_one(query, new_data)
 
     def exists(self, query: dict) -> bool:
         """
