@@ -17,8 +17,7 @@ class UserServices:
         self._user_repository = user_repository
 
     def get_user(self, user_id: str) -> User:
-        id = { "id": user_id }
-        if not self._user_repository.exists(id):
+        if not self._user_repository.user_id_exists(user_id):
             raise ValueError("Invalid user ID")
 
         user = self._user_repository.get(id)
@@ -29,7 +28,7 @@ class UserServices:
         return [User(**data) for data in user_datas]
 
     def create_user(self, user_data: StandardUserSignUp) -> User:
-        if self._user_repository.exists({ "email": user_data.email }):
+        if self._user_repository.email_exists(user_data.email):
             raise ValueError("User with this email exists. Please use another one.")
 
         creation_time = datetime.now()
