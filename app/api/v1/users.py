@@ -59,5 +59,5 @@ async def get_user(
 ) -> None:
     try:
         user_services.delete_user(user_id)
-    except:
+    except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
