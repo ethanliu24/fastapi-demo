@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from bson import ObjectId
 from ...dependencies import get_user_services
 from ...services.user import UserServices
 from ...models.user import User
@@ -10,12 +9,17 @@ router = APIRouter(
     tags=["users"],
 )
 
-@router.get("/")
-async def get_users() -> list[User]:
-    pass
+@router.get("")
+async def get_users(
+    age: int | None = None,
+    min_age: int | None = None,
+    max_age: int | None = None,
+    user_services: UserServices = Depends(get_user_services)
+) -> list[User]:
+    return user_services.get_all_users(age, min_age, max_age)
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("", status_code=status.HTTP_201_CREATED)
 def create_user(
     user_data: StandardUserSignUp,
     user_services: UserServices = Depends(get_user_services)
@@ -37,7 +41,6 @@ def get_user(
         return user
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-
 
 
 @router.put("/{user_id}")

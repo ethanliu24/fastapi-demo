@@ -22,6 +22,20 @@ class UserServices:
         user = self._user_repository.get(id)
         return User(**user)
 
+    def get_all_users(self, age: int | None, min_age: int | None, max_age: int | None) -> list[User]:
+        # This implementation is mongodb specific, may need to redesign or redo if using another db
+        # will move this once there's an interface made for user repo
+        age_query = {}
+        if age is not None: age_query.update({"$eq": age})
+        if min_age is not None: age_query.update({"$gte": min_age})
+        if max_age is not None: age_query.update({"$lte": max_age})
+
+        filter = {}
+        if age_query: filter.update({"age": age_query})
+
+        user_datas = self._user_repository.get_all(filter)
+        return [User(**data) for data in user_datas]
+
     def create_user(self, user_data: StandardUserSignUp) -> User:
         if self._user_repository.exists({ "email": user_data.email }):
             raise ValueError("User with this email exists. Please use another one.")

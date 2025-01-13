@@ -24,11 +24,11 @@ class MongoDBORM(Repository):
         """
         return self._repository.find_one(filter)
 
-    def get_all(self, filter: dict) -> dict:
+    def get_all(self, filter: dict) -> list[dict]:
         """
         Retrieves all data_models from <self._repository> with the applied filter.
         """
-        pass
+        return list(self._repository.find(filter))
 
     def delete(self, filter: dict) -> dict:
         """
