@@ -2,7 +2,7 @@ from __future__ import annotations
 from database.db_manager import DBManager
 from database.mongodb import MongoDB
 from .repositories.repository import Repository
-from .repositories.mongodb import user_repository as MongoRepository
+from .repositories.mongodb.user_repository import MongoUserRepository
 from config.settings import (
     ENVIORNMENT,
     USER_COLLECTION
@@ -34,4 +34,4 @@ class DB:
 
         user_collection = mongodb.get_collection(USER_COLLECTION)
         user_collection.create_index("email", unique=True)
-        self._user_repository = MongoRepository.UserRepository(user_collection)
+        self._user_repository = MongoUserRepository(user_collection)

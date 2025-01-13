@@ -1,15 +1,17 @@
 from datetime import datetime
 from ..repositories.repository import Repository
+from ..repositories.user_repository import UserRepository
 from ..models.user import User
 from ..models.authentication import StandardUserSignUp
 from ..utils.utils import generate_id
+from typing import Union
 
 class UserServices:
     """
     Services for User
     """
 
-    _user_repository: Repository
+    _user_repository: Union[Repository, UserRepository]
 
     def __init__(self, user_repository: Repository):
         self._user_repository = user_repository
@@ -23,17 +25,7 @@ class UserServices:
         return User(**user)
 
     def get_all_users(self, age: int | None, min_age: int | None, max_age: int | None) -> list[User]:
-        # This implementation is mongodb specific, may need to redesign or redo if using another db
-        # will move this once there's an interface made for user repo
-        age_query = {}
-        if age is not None: age_query.update({"$eq": age})
-        if min_age is not None: age_query.update({"$gte": min_age})
-        if max_age is not None: age_query.update({"$lte": max_age})
-
-        filter = {}
-        if age_query: filter.update({"age": age_query})
-
-        user_datas = self._user_repository.get_all(filter)
+        user_datas = self._user_repository.query_all_users(age, min_age, max_age)
         return [User(**data) for data in user_datas]
 
     def create_user(self, user_data: StandardUserSignUp) -> User:
