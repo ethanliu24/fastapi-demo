@@ -30,11 +30,12 @@ class MongoDBORM(Repository):
         """
         return list(self._repository.find(filter))
 
-    def delete(self, filter: dict) -> dict:
+    def delete(self, filter: dict) -> bool:
         """
         Deletes a data_model from <self._repository> with the applied filter.
         """
-        pass
+        res = self._repository.delete_one(filter)
+        return res.acknowledged
 
     def update(self, query: dict, new_data: dict) -> None:
         """

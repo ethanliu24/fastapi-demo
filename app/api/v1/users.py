@@ -53,5 +53,8 @@ async def get_user(
 
 
 @router.delete("/{user_id}")
-async def get_user():
-    pass
+async def get_user(
+    user_id: str,
+    user_services: UserServices = Depends(get_user_services)
+) -> bool:
+    return user_services.delete_user(user_id)

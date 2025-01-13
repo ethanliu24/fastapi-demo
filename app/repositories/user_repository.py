@@ -24,3 +24,7 @@ class UserRepository(ABC):
     @abstractmethod
     def update_user(self, user_id: str) -> None:
         pass
+
+    @abstractmethod
+    def delete_user(self, user_id: str) -> None:
+        pass

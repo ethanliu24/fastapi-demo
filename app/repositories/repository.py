@@ -1,3 +1,5 @@
+# This file may not be neccessary, as well as anything that implements those methods.
+
 from abc import ABC, abstractmethod
 from pydantic import BaseModel
 

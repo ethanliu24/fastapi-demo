@@ -55,3 +55,6 @@ class UserServices:
         user.modified_at = datetime.now()
 
         self._user_repository.update_user(user_id, user)
+
+    def delete_user(self, user_id: str) -> bool:
+        return self._user_repository.delete_user(user_id)
