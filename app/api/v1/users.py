@@ -56,5 +56,8 @@ async def get_user(
 async def get_user(
     user_id: str,
     user_services: UserServices = Depends(get_user_services)
-) -> bool:
-    return user_services.delete_user(user_id)
+) -> None:
+    try:
+        user_services.delete_user(user_id)
+    except:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))

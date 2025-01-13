@@ -57,4 +57,6 @@ class UserServices:
         self._user_repository.update_user(user_id, user)
 
     def delete_user(self, user_id: str) -> bool:
-        return self._user_repository.delete_user(user_id)
+        deleted = self._user_repository.delete_user(user_id)
+        if not deleted:
+            raise ValueError("User not found.")
