@@ -16,19 +16,19 @@ class MongoDBORM(Repository):
         """
         Inserts a data_model into the given <self._repository>.
         """
-        self._repository.insert_one(model.__dict__)
+        self._repository.insert_one(model.model_dump())
 
-    def get(self, filter: dict) -> dict:
+    def get(self, filter: dict) -> dict | None:
         """
         Retrieves a data_model from <self._repository> with the applied filter.
         """
-        pass
+        return self._repository.find_one(filter)
 
-    def get_all(self, filter: dict) -> dict:
+    def get_all(self, filter: dict) -> list[dict]:
         """
         Retrieves all data_models from <self._repository> with the applied filter.
         """
-        pass
+        return list(self._repository.find(filter))
 
     def delete(self, filter: dict) -> dict:
         """
@@ -41,3 +41,9 @@ class MongoDBORM(Repository):
         Updates a data_model from <self._repository> with the applied filter.
         """
         pass
+
+    def exists(self, query: dict) -> bool:
+        """
+        Check if a model exists in <self._repository> using the given filter.
+        """
+        return False if not self.get(query) else True
