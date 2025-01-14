@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from ...dependencies import get_user_services
+from ...config.dependencies import get_user_services
 from ...services.user import UserServices
 from ...models.user import User, UserUpdate
 from ...models.authentication import StandardUserSignUp

@@ -1,7 +1,7 @@
 from .db_manager import DBManager
 from pymongo import MongoClient
 from pymongo.database import Database as MongoDatabase
-from config.settings import MONGO_DB_CONNECTION_STRING, DEMO_DB
+from ..config.settings import MONGO_DB_CONNECTION_STRING, DEMO_DB
 
 class MongoDB(DBManager):
     """

@@ -3,9 +3,9 @@ from .db import DB
 from fastapi import Depends
 from typing import Annotated
 
-from .repositories.repository import Repository
+from ..repositories.repository import Repository
 
-from .services.user import UserServices
+from ..services.user import UserServices
 
 def get_db() -> DB:
     return DB()
