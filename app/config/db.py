@@ -1,9 +1,9 @@
 from __future__ import annotations
-from database.db_manager import DBManager
-from database.mongodb import MongoDB
-from .repositories.repository import Repository
-from .repositories.mongodb.user_repository import MongoUserRepository
-from config.settings import (
+from ..database.db_manager import DBManager
+from ..database.mongodb import MongoDB
+from ..repositories.repository import Repository
+from ..repositories.mongodb.user_repository import MongoUserRepository
+from ..config.settings import (
     ENVIORNMENT,
     USER_COLLECTION
 )
