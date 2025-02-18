@@ -33,13 +33,15 @@ async def get_chat_page():
                     <hr>
                 </form>
 
+                <div id="isTyping"></div>
+                <br>
+
                 <form action="">
                     <input type="text" id="messageText" autocomplete="off"/>
                     <button id="sendButton">Send</button>
                 </form>
 
-                <ul id='messages'>
-                </ul>
+                <ul id='messages'></ul>
 
                 <script>
                     let ws;
@@ -125,14 +127,27 @@ async def get_chat_page():
                     }};
 
                     handleSendMessage = msg => {{
-                        let messages = document.getElementById("messages");
-                        let message = document.createElement("li");
-                        let content = document.createTextNode(msg);
+                        const messages = document.getElementById("messages");
+                        const message = document.createElement("li");
+                        const content = document.createTextNode(msg);
                         message.appendChild(content);
                         messages.prepend(message);
                     }}
 
                     handleIsTyping = typers => {{
+                        console.log(typers)
+                        const isTypingText = document.getElementById("isTyping");
+                        let typerStr;
+
+                        if (typers.length === 0) {{
+                            return;
+                        }} else if (typers.length >= 4) {{
+                            typeStr = "Many people are";
+                        }} else {{
+                            typeStr = `${{typers.join(", ")}} ${{typers.length === 1 ? "is" : "are"}}`;
+                        }}
+
+                        isTypingText.innerText = `${{typeStr}} typing...`;
                     }};
                 </script>
             </body>
