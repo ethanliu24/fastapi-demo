@@ -13,3 +13,5 @@ DOMAIN_URL = os.environ.get("DOMAIN_URL")
 MONGO_DB_CONNECTION_STRING = os.environ.get("MONGO_DB_CONNECTION_STRING")
 DEMO_DB = "Demo"
 USER_COLLECTION = "users"
+
+JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
