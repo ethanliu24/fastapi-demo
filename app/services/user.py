@@ -15,7 +15,7 @@ class UserServices:
     _user_repository: Union[Repository, UserRepository]
     _pw_context: CryptContext
 
-    async def __init__(self, user_repository: Repository, pw_context: CryptContext):
+    def __init__(self, user_repository: Repository, pw_context: CryptContext):
         self._user_repository = user_repository
         self._pw_context = pw_context
 
