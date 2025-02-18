@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from .config.routes import api_router_v1
 from fastapi.middleware.cors import CORSMiddleware
 from .config.settings import DOMAIN_URL
+from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 
@@ -89,7 +90,7 @@ async def get_chat_page():
                             let content = document.createTextNode(e.data);
                             console.log(e.data);
                             message.appendChild(content);
-                            messages.appendChild(message);
+                            messages.prepend(message);
                         }};
                     }};
                 </script>
