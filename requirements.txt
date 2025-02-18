@@ -3,3 +3,5 @@ pymongo[srv]
 pydantic==2.10.5
 python-dotenv==1.0.1
 websockets==15.0
+pyjwt==2.10.1
+passlib[bcrypt]==1.7.4
