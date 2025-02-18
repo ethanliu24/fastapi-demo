@@ -26,6 +26,13 @@ class UserServices:
         user = self._user_repository.get_user_by_id(user_id)
         return User(**user)
 
+    async def get_user_by_email(self, email: str) -> User:
+        if not self._user_repository.email_exists(email):
+            raise ValueError("Email doesn't exist")
+
+        user = self._user_repository.get_user_by_email(email)
+        return User(**user)
+
     async def get_all_users(self, age: int | None, min_age: int | None, max_age: int | None) -> list[User]:
         user_datas = self._user_repository.query_all_users(age, min_age, max_age)
         return [User(**data) for data in user_datas]

@@ -22,6 +22,10 @@ class UserRepository(ABC):
         pass
 
     @abstractmethod
+    def get_user_by_email(self, email: str) -> User:
+        pass
+    
+    @abstractmethod
     def update_user(self, user_id: str) -> None:
         pass
 
