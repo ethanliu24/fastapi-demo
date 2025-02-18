@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 from ...services.chat import ChatServices
 from ...config.dependencies import get_chat_services
+from ...models.websocket_event import PublicChatEvent, TypingEvent
 
 router = APIRouter(
     prefix="/chat",
@@ -22,11 +23,11 @@ async def websocket_endpoint(
             event_type = data.get("event")
 
             if event_type == "public_chat":
-                msg = data.get("message")
-                await chat_services.broadcast_msg(f"{client_name}: {msg}")
+                event = PublicChatEvent(**data)
+                await chat_services.broadcast_msg(f"{client_name}: {event.message}")
             elif event_type == "typing":
-                is_typing = data.get("is_typing")
-                if is_typing:
+                event = TypingEvent(**data)
+                if event.is_typing:
                     await chat_services.add_to_typing_users(client_name)
                 else:
                     await chat_services.remove_from_typing_users(client_name)
