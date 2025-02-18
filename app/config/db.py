@@ -21,7 +21,8 @@ class DB:
         if ENVIORNMENT == "development":
             self._init_mongodb()
         elif ENVIORNMENT == "production":
-            raise Exception("Production enviornment not supported yet")
+            self._init_mongodb()
+            print("Warning: production and development uses the same database")
         else:
             raise Exception("Test enviornment not supported yet")
 
