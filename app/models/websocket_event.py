@@ -9,3 +9,4 @@ class TypingEvent(BaseModel):
     event: str
     user: str
     is_typing: bool
+    
