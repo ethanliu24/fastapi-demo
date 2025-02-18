@@ -11,7 +11,7 @@ To contribute or run the app locally, clone the repo and step into it (i.e. `cd 
 ### Installing dependencies
 1. Create a Python virtual enviornment if one isn't present (see [FAQ](#faq)).
 2. Start a Python virtual enviornment (see [FAQ](#faq)).
-3. Run this line in the terminal: `pip install -r requirement`.
+3. Run this line in the terminal: `pip install -r requirements.txt`.
 
 ## Running locally
 1. Load the enviornment variables in `.env`.
