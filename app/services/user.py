@@ -4,6 +4,7 @@ from ..repositories.user_repository import UserRepository
 from ..models.user import User, UserUpdate
 from ..models.authentication import StandardUserSignUp
 from ..utils.utils import generate_id
+from ..config.dependencies import bycrypt_context
 from typing import Union
 
 class UserServices:
@@ -36,7 +37,7 @@ class UserServices:
             id = generate_id(),
             email = user_data.email,
             username = user_data.username,
-            password = user_data.password,
+            password = bycrypt_context.hash(user_data.password),
             age = user_data.age,
             created_at = creation_time,
             modified_at = creation_time
