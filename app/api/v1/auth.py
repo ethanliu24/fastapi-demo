@@ -22,8 +22,3 @@ async def login(
         return await auth_services.signup(user_signup_model)
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
-
-
-@router.post("/logout")
-async def login():
-    pass
