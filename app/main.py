@@ -93,7 +93,7 @@ async def get_chat_page():
                                 }}, 1000);
                             }});
                         }}
-                    }}
+                    }};
 
                     const sendBtn = document.getElementById("sendButton");
                     sendBtn.onclick = e => {{
@@ -112,6 +112,9 @@ async def get_chat_page():
                             message: msgText.value,
                         }}));
                         msgText.value = "";
+
+                        document.getElementById("isTyping").innerText = "";
+                        onTypingCheckTimeout = false;
                     }};
 
                     connectToWS = username => {{
@@ -144,6 +147,7 @@ async def get_chat_page():
                         let typerStr;
 
                         if (typers.length === 0) {{
+                            isTypingText.innerText = "";
                             return;
                         }} else if (typers.length >= 4) {{
                             typeStr = "Many people are";
