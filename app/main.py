@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from .config.routes import api_router_v1
 from fastapi.middleware.cors import CORSMiddleware
+from .config.settings import DOMAIN_URL
 
 app = FastAPI()
 
