@@ -8,6 +8,7 @@ class ChatServices:
     _active_connections: list[WebSocket]
 
     def __init__(self):
+        print(self)
         self._active_connections = []
 
     async def connect(self, websocket: WebSocket):
@@ -19,4 +20,4 @@ class ChatServices:
 
     async def broadcast_msg(self, msg: str):
         for connection in self._active_connections:
-            connection.send_text(msg)
+            await connection.send_text(msg)

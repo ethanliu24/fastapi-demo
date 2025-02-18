@@ -20,5 +20,6 @@ def get_user_repository(db: Annotated[DB, Depends(get_db)]) -> Repository:
 def get_user_services(user_repository: Annotated[Repository, Depends(get_user_repository)]) -> UserServices:
     return UserServices(user_repository)
 
+chat_services_instance = ChatServices()
 def get_chat_services() -> ChatServices:
-    return ChatServices()
+    return chat_services_instance
