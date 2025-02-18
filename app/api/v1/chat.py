@@ -19,34 +19,74 @@ async def get_chat_page():
             </head>
             <body>
                 <h1>WebSocket Chat</h1>
-                <h2>Your ID: <span id="ws-id"></span></h2>
+                <h4 id="connectionText"></h4>
+
+                <form action="">
+                    <label>Enter username: <input type="text" id="usernameInput" autocomplete="off" value=""/></label>
+                    <button id="connectButton">Connect</button>
+                    <hr>
+                </form>
+
                 <form action="">
                     <input type="text" id="messageText" autocomplete="off"/>
                     <button id="sendButton">Send</button>
                 </form>
+
                 <ul id='messages'>
                 </ul>
-                <script>
-                    var client_id = Date.now().toString().split('').reverse().join('')
-                    document.querySelector("#ws-id").textContent = client_id
 
-                    const ws = new WebSocket(`ws://{DOMAIN_URL}/api/v1/chat/ws/${{client_id}}`)
-                    ws.onmessage = e => {{
-                        let messages = document.getElementById('messages')
-                        let message = document.createElement('li')
-                        let content = document.createTextNode(e.data)
-                        console.log(e.data)
-                        message.appendChild(content)
-                        messages.appendChild(message)
+                <script>
+                    let ws;
+                    let connected = false;
+
+                    const connectBtn = document.getElementById("connectButton");
+                    connectBtn.onclick = e => {{
+                        e.preventDefault();
+
+                        const usernameInput = document.getElementById("usernameInput");
+                        const connectionText = document.getElementById("connectionText");
+
+                        let username = usernameInput.value;
+                        if (username === "") {{
+                            alert("Please enter a name");
+                            return;
+                        }}
+
+                        username = username.split(" ").join("_").toLowerCase();
+                        connectBtn.disabled = true;
+                        usernameInput.disabled = true;
+                        connected = true;
+                        connectionText.textContent = `You are connected as "${{username}}"`;
+                        connectToWS(username);
                     }};
 
-                    const msgText = document.getElementById("messageText")
-                    const sendBtn = document.getElementById("sendButton")
+                    const msgText = document.getElementById("messageText");
+                    const sendBtn = document.getElementById("sendButton");
                     sendBtn.onclick = e => {{
-                        e.preventDefault()
-                        ws.send(msgText.value)
-                        msgText.value = ""
-                    }}
+                        e.preventDefault();
+
+                        if (!connected) {{
+                            alert("Please connect first");
+                            return;
+                        }};
+
+                        if (!ws) return;
+
+                        ws.send(msgText.value);
+                        msgText.value = "";
+                    }};
+
+                    connectToWS = username => {{
+                        ws = new WebSocket(`ws://{DOMAIN_URL}/api/v1/chat/ws/${{username}}`);
+                        ws.onmessage = e => {{
+                            let messages = document.getElementById("messages");
+                            let message = document.createElement("li");
+                            let content = document.createTextNode(e.data);
+                            console.log(e.data);
+                            message.appendChild(content);
+                            messages.appendChild(message);
+                        }};
+                    }};
                 </script>
             </body>
         </html>
@@ -54,10 +94,10 @@ async def get_chat_page():
 
     return HTMLResponse(html)
 
-@router.websocket("/ws/{client_id}")
+@router.websocket("/ws/{client_name}")
 async def websocket_endpoint(
     websocket: WebSocket,
-    client_id: int,
+    client_name: str,
     chat_services: ChatServices = Depends(get_chat_services)
 ) -> None:
     await chat_services.connect(websocket)
@@ -66,6 +106,6 @@ async def websocket_endpoint(
         while True:
             # receive_text() -> str, receive_json() -> json, receive_bytes() -> binary
             msg = await websocket.receive_text()
-            await chat_services.broadcast_msg(f"{client_id}: {msg}")
+            await chat_services.broadcast_msg(f"{client_name}: {msg}")
     except WebSocketDisconnect:
         chat_services.disconnect(websocket)
