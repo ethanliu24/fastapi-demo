@@ -83,7 +83,7 @@ async def get_chat_page():
                     }};
 
                     connectToWS = username => {{
-                        ws = new WebSocket(`ws://{DOMAIN_URL}/api/v1/chat/ws/${{username}}`);
+                        ws = new WebSocket(`wss://{DOMAIN_URL}/api/v1/chat/ws/${{username}}`);
                         ws.onmessage = e => {{
                             let messages = document.getElementById("messages");
                             let message = document.createElement("li");
