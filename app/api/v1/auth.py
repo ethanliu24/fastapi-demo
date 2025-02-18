@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from ...models.authentication import StandardUserSignUp, StandardUserLogin, JWTToken
 from ...services.auth import AuthenticationServices
 from ...config.dependencies import get_auth_services
+from ...utils.utils import create_token_data
 
 router = APIRouter(
     prefix="/auth",
@@ -21,7 +22,7 @@ async def login(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    return auth_services.generate_token(data={"sub": user.id})
+    return auth_services.generate_token(data=create_token_data(user.id))
 
 
 @router.post("/signup", status_code=status.HTTP_201_CREATED)

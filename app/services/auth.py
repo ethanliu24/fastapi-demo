@@ -5,6 +5,7 @@ from datetime import timedelta, datetime, timezone
 import jwt
 from jwt.exceptions import InvalidTokenError
 from ..config.settings import ACCESS_TOKEN_EXPIRE_MINUTES, JWT_SECRET_KEY, JWT_HASH_ALORITHM, pw_context
+from ..utils.utils import create_token_data
 
 class AuthenticationServices:
     _user_services: UserServices
@@ -36,7 +37,7 @@ class AuthenticationServices:
 
     async def signup(self, user_data: StandardUserSignUp) -> JWTToken:
         user = await self._user_services.create_user(user_data)
-        token = self.generate_token(data={"sub": user.id})
+        token = self.generate_token(data=create_token_data(user.id))
         return token
 
     async def authenticate_user(self, login_data: StandardUserLogin) -> User | None:
