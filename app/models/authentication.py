@@ -25,3 +25,13 @@ class StandardUserSignUp(BaseModel):
         if confirmation != password:
             raise ValueError("Password doesn't match")
         return confirmation
+
+
+class StandardUserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+
+class JWTToken(BaseModel):
+    access_token: str
+    token_type: str

@@ -13,8 +13,11 @@ class MongoUserRepository(MongoDBORM, UserRepository):
     def user_id_exists(self, user_id: str) -> bool:
         return super().exists({ "id": user_id })
 
-    def get_user_by_id(self, user_id: str) -> bool:
+    def get_user_by_id(self, user_id: str) -> User:
         return super().get({ "id": user_id })
+
+    def get_user_by_email(self, email: str) -> User:
+        return super().get({ "email": email })
 
     def query_all_users(self, age: int | None, min_age: int | None, max_age: int | None) -> list[User]:
         age_query = {}
