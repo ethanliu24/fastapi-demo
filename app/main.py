@@ -69,6 +69,7 @@ async def get_chat_page():
                         connectToWS(username);
                     }};
 
+                    let onTypingCheckTimeout = false;
                     const msgText = document.getElementById("messageText");
                     msgText.oninput = async (e) => {{
                         if (!ws) return;
@@ -82,9 +83,14 @@ async def get_chat_page():
 
                         ws.send(typingEvent);
 
-                        if (msgText.value !== "") {{
+                        if (msgText.value !== "" && !onTypingCheckTimeout) {{
+                            onTypingCheckTimeout = true;
+
                             await new Promise(() => {{
-                                setTimeout(() => {{ msgText.dispatchEvent(new Event("input")); }}, 1000);
+                                setTimeout(() => {{
+                                    onTypingCheckTimeout = false;
+                                    msgText.dispatchEvent(new Event("input"));
+                                }}, 1000);
                             }});
                         }}
                     }}
@@ -112,7 +118,6 @@ async def get_chat_page():
                         ws = new WebSocket(`{"wss" if ENVIORNMENT == "production" else "ws"}://{DOMAIN_URL}/api/v1/chat/ws/${{username}}`);
                         ws.onmessage = e => {{
                             const data = JSON.parse(e.data);
-                            console.log(data)
                             switch (data.event) {{
                                 case "public_chat":
                                     handleSendMessage(data.message);
@@ -135,7 +140,6 @@ async def get_chat_page():
                     }}
 
                     handleIsTyping = typers => {{
-                        console.log(typers)
                         const isTypingText = document.getElementById("isTyping");
                         let typerStr;
 
