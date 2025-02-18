@@ -44,7 +44,7 @@ def get_user(
 
 
 @router.put("/{user_id}", status_code=status.HTTP_200_OK)
-async def get_user(
+async def update_user(
     user_id: str,
     new_data: UserUpdate,
     user_services: UserServices = Depends(get_user_services)
@@ -53,7 +53,7 @@ async def get_user(
 
 
 @router.delete("/{user_id}", status_code=status.HTTP_200_OK)
-async def get_user(
+async def delete_user(
     user_id: str,
     user_services: UserServices = Depends(get_user_services)
 ) -> None:
