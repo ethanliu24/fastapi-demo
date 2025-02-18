@@ -27,7 +27,11 @@ class StandardUserSignUp(BaseModel):
         return confirmation
 
 
+class StandardUserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+
 class JWTToken(BaseModel):
     access_token: str
     token_type: str
-    
