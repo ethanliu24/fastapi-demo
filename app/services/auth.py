@@ -43,11 +43,11 @@ class AuthenticationServices:
     async def authenticate_user(self, login_data: StandardUserLogin) -> User | None:
         try:
             user = await self._user_services.get_user_by_email(login_data.email)
-            if not self._verify_password(login_data.password, user):
+            if not self._verify_password(login_data.password, user.password):
                 return None
             return user
         except ValueError:
             return None
 
-    def _verify_password(self, pwd: str, user: User) -> bool:
-        return pw_context.hash(pwd) == user.password
+    def _verify_password(self, pwd: str, user_pwd: str) -> bool:
+        return pw_context.verify(pwd, user_pwd)
