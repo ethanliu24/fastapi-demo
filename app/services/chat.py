@@ -8,7 +8,7 @@ class ChatServices:
     _active_connections: list[WebSocket]
 
     def __init__(self):
-        self._active_connnections = []
+        self._active_connections = []
 
     async def connect(self, websocket: WebSocket):
         await websocket.accept()
