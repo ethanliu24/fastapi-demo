@@ -1,8 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from .config.routes import api_router_v1
 from fastapi.middleware.cors import CORSMiddleware
 from .config.settings import DOMAIN_URL, ENVIORNMENT
 from fastapi.responses import HTMLResponse
+from .config.agent import agent
 
 app = FastAPI()
 
@@ -14,6 +15,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.post("/agent")
+async def agent_route(request: Request):
+    user_input = (await request.json()).get("prompt", "Tell client that `prompt` field is not given.")
+    print("USER INPUT: " +  user_input)
+    response = agent.run(user_input)
+    return {"response": response}
 
 @app.get("/chat")
 async def get_chat_page():
