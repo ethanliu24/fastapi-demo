@@ -18,9 +18,10 @@ app.add_middleware(
 
 @app.post("/agent")
 async def agent_route(request: Request):
+    # https://ai.google.dev/gemini-api/docs/langgraph-example
     user_input = (await request.json()).get("prompt", "Tell client that `prompt` field is not given.")
-    print("USER INPUT: " +  user_input)
-    response = agent.run(user_input)
+    # response = agent.invoke({"messages": [{"role": "user", "content": user_input}]})
+    response = agent.invoke(input={"input": user_input})
     return {"response": response}
 
 @app.get("/chat")
