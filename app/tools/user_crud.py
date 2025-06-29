@@ -1,8 +1,10 @@
 
 from fastapi import Depends
 from langchain_core.tools import tool
+from pydantic import EmailStr
 from ..services.user import UserServices
 from ..models.user import User, UserUpdate
+from ..models.authentication import StandardUserSignUp
 from ..config.db import DB
 from ..config.settings import pw_context
 import json
@@ -25,45 +27,34 @@ def get_users(
     users_dict = [user.model_dump_json() for user in users]
     return json.dumps(users_dict)
 
-# @router.post("", status_code=status.HTTP_201_CREATED)
-# async def create_user(
-#     user_data: StandardUserSignUp,
-#     user_services: UserServices = Depends(get_user_services)
-# ) -> None:
-#     try:
-#         user = await user_services.create_user(user_data)
-#         return user
-#     except ValueError as e:
-#         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+@tool("get_users", args_schema=StandardUserSignUp, return_direct=True)
+def create_user(
+    email: EmailStr,
+    username: str,
+    age: int,
+    password: str,
+    password_confirmation: str,
+) -> User | str:
+    """
+    Creates the user record and stores it in a database. user_data is a StandardUserSignUp object which
+    has the attributes email, username, age, password, and password_confirmation (should match password).
+    If there are any errors creating the user, tell the user what the error is and what they need to do.
+    Do not include the return result in your response, especially the password and its confirmation.
+    """
+    user_data = {
+      "email": email,
+      "username": username,
+      "age": age,
+      "password": password,
+      "password_confirmation": password_confirmation,
+    }
+
+    try:
+        print(user_data)
+        user = user_services.create_user(StandardUserSignUp(**user_data))
+        return user.model_dump_json()
+    except ValueError as e:
+        return f"Error creating user: #{e}"
 
 
-# @router.get("/{user_id}", status_code=status.HTTP_200_OK)
-# async def get_user(
-#     user_id: str,
-#     user_services: UserServices = Depends(get_user_services)
-# ) -> User:
-#     try:
-#         user = await user_services.get_user(user_id)
-#         return user
-#     except ValueError as e:
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-
-
-# @router.put("/{user_id}", status_code=status.HTTP_200_OK)
-# async def update_user(
-#     user_id: str,
-#     new_data: UserUpdate,
-#     user_services: UserServices = Depends(get_user_services)
-# ) -> None:
-#     await user_services.update_user(user_id, new_data)
-
-
-# @router.delete("/{user_id}", status_code=status.HTTP_200_OK)
-# async def delete_user(
-#     user_id: str,
-#     user_services: UserServices = Depends(get_user_services)
-# ) -> None:
-#     try:
-#         await user_services.delete_user(user_id)
-#     except ValueError as e:
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+TOOLS = [get_users, create_user]

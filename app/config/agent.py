@@ -7,11 +7,14 @@ from langgraph.graph import StateGraph, END
 from ..models.agent import AgentState
 
 from ..tools.weather import get_weather_forecast
-from ..tools.user_crud import get_users
+from ..tools import user_crud
 
 # https://ai.google.dev/gemini-api/docs/langgraph-example
 
-TOOLS = [get_weather_forecast, get_users]
+TOOLS = [
+    get_weather_forecast,
+    *user_crud.TOOLS,
+]
 tools_by_name = {tool.name: tool for tool in TOOLS}
 api_key = os.environ["GEMINI_API_KEY"]
 llm = ChatGoogleGenerativeAI(
