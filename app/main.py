@@ -3,7 +3,6 @@ from .config.routes import api_router_v1
 from fastapi.middleware.cors import CORSMiddleware
 from .config.settings import DOMAIN_URL, ENVIORNMENT
 from fastapi.responses import HTMLResponse
-from .config.agent import agent
 
 app = FastAPI()
 
@@ -15,14 +14,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-@app.post("/agent")
-async def agent_route(request: Request):
-    # https://ai.google.dev/gemini-api/docs/langgraph-example
-    user_input = (await request.json()).get("prompt", "Tell client that `prompt` field is not given.")
-    # response = agent.invoke({"messages": [{"role": "user", "content": user_input}]})
-    response = agent.invoke(input={"input": user_input})
-    return {"response": response}
 
 @app.get("/chat")
 async def get_chat_page():

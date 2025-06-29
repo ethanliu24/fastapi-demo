@@ -1,30 +1,13 @@
-from typing import Annotated,Sequence, TypedDict
-from pydantic import BaseModel, Field
-from langgraph.prebuilt import create_react_agent
-from langchain_core.messages import BaseMessage
-from langgraph.graph.message import add_messages
+import os
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_core.tools import tool
-from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.messages import ToolMessage
 from langchain_core.runnables import RunnableConfig
 from langgraph.graph import StateGraph, END
-import os
+from ..models.agent import AgentState
 
-class SearchInput(BaseModel):
-    location:str = Field(description="The city and state, e.g., San Francisco")
-    date:str = Field(description="the forecasting date for when to get the weather format (yyyy-mm-dd)")
+from ..tools.weather import get_weather_forecast
 
-@tool("get_weather_forecast", args_schema=SearchInput, return_direct=True)
-def get_weather_forecast(location: str, date: str):
-    """
-    Retrieves the weather using Open-Meteo API for a given location (city) and a date (yyyy-mm-dd).
-    Returns a float the represents temperature in Celsius.
-    Format your response like this:
-    "The weather at `location` on `date` is `temperate`"
-    """
-    print("weather is 30")
-    return 30
+# https://ai.google.dev/gemini-api/docs/langgraph-example
 
 TOOLS = [get_weather_forecast]
 tools_by_name = {tool.name: tool for tool in TOOLS}
@@ -36,29 +19,13 @@ llm = ChatGoogleGenerativeAI(
     google_api_key=api_key,
 )
 model = llm.bind_tools(TOOLS)
-agent = create_react_agent(llm, tools=TOOLS)
 
-class AgentState(TypedDict):
-    """The state of the agent."""
-    messages: Annotated[Sequence[BaseMessage], add_messages]
-    number_of_steps: int
-
-# SYSTEM_PROMPT = ChatPromptTemplate.from_messages([
-#     ("system",
-#      "You will help me manage users with CRUD operations."
-#      "Pick up any information you need from the given prompts."
-#      "If there's not enough information to complete an action, tell so through you response.")
-# ])
-
-PROMPT = \
-    "You will help me manage users with CRUD operations. " \
-    "Pick up any information you need from the given prompts. " \
+SYSTEM_PROMPT = (
+    "system",
+    "You will help me manage users with CRUD operations."
+    "Pick up any information you need from the given prompts."
     "If there's not enough information to complete an action, tell so through you response."
-
-messages = [
-    SystemMessage(content="You are a helpful assistant that tells the user the weather."),
-    HumanMessage(content="What is the weather in Berlin on 2025-06-28?")
-]
+)
 
 # Define our tool node
 def call_tool(state: AgentState):
@@ -122,17 +89,3 @@ workflow.add_edge("tools", "llm")
 
 # Now we can compile and visualize our graph
 graph = workflow.compile()
-
-# res = model.invoke("Whats the weather in Berlin on 2020-05-05")
-# print(res)
-
-inputs = {"messages": [("user", f"What is the weather in Toronto on 2020, may 5th?")]}
-for state in graph.stream(inputs, stream_mode="values"):
-    last_message = state["messages"][-1]
-    last_message.pretty_print()
-
-state["messages"].append(("user", "Would it be in Munich warmer?"))
-
-for state in graph.stream(state, stream_mode="values"):
-    last_message = state["messages"][-1]
-    last_message.pretty_print()
