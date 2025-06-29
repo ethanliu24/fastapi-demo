@@ -1,15 +1,17 @@
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
+import json
 from langchain_core.messages import ToolMessage
 from langchain_core.runnables import RunnableConfig
 from langgraph.graph import StateGraph, END
 from ..models.agent import AgentState
 
 from ..tools.weather import get_weather_forecast
+from ..tools.user_crud import get_users
 
 # https://ai.google.dev/gemini-api/docs/langgraph-example
 
-TOOLS = [get_weather_forecast]
+TOOLS = [get_weather_forecast, get_users]
 tools_by_name = {tool.name: tool for tool in TOOLS}
 api_key = os.environ["GEMINI_API_KEY"]
 llm = ChatGoogleGenerativeAI(
@@ -23,6 +25,7 @@ model = llm.bind_tools(TOOLS)
 SYSTEM_PROMPT = (
     "system",
     "You will help me manage users with CRUD operations."
+    "Call any tools that's responsible, which will assist you in these operations."
     "Pick up any information you need from the given prompts."
     "If there's not enough information to complete an action, tell so through you response."
 )
@@ -41,7 +44,7 @@ def call_tool(state: AgentState):
                 tool_call_id=tool_call["id"],
             )
         )
-    return {"messages": outputs}
+    return {"messages": outputs, "number_of_steps": state["number_of_steps"] + 1}
 
 def call_model(
     state: AgentState,

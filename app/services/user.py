@@ -19,25 +19,25 @@ class UserServices:
         self._user_repository = user_repository
         self._pw_context = pw_context
 
-    async def get_user(self, user_id: str) -> User:
+    def get_user(self, user_id: str) -> User:
         if not self._user_repository.user_id_exists(user_id):
             raise ValueError("Invalid user ID")
 
         user = self._user_repository.get_user_by_id(user_id)
         return User(**user)
 
-    async def get_user_by_email(self, email: str) -> User:
+    def get_user_by_email(self, email: str) -> User:
         if not self._user_repository.email_exists(email):
             raise ValueError("Email doesn't exist")
 
         user = self._user_repository.get_user_by_email(email)
         return User(**user)
 
-    async def get_all_users(self, age: int | None, min_age: int | None, max_age: int | None) -> list[User]:
+    def get_all_users(self, age: int | None, min_age: int | None, max_age: int | None) -> list[User]:
         user_datas = self._user_repository.query_all_users(age, min_age, max_age)
         return [User(**data) for data in user_datas]
 
-    async def create_user(self, user_data: StandardUserSignUp) -> User:
+    def create_user(self, user_data: StandardUserSignUp) -> User:
         if self._user_repository.email_exists(user_data.email):
             raise ValueError("User with this email exists. Please use another one.")
 

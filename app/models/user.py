@@ -1,6 +1,7 @@
 from datetime import datetime
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 
+# NOTE: Should add attribute descriptions with pydantic Field
 class User(BaseModel):
     """
     Represents an application user.
