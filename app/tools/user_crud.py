@@ -27,7 +27,7 @@ def get_users(
     users_dict = [user.model_dump_json() for user in users]
     return json.dumps(users_dict)
 
-@tool("get_users", args_schema=StandardUserSignUp, return_direct=True)
+@tool("create_user", args_schema=StandardUserSignUp, return_direct=True)
 def create_user(
     email: EmailStr,
     username: str,
