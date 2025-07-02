@@ -54,3 +54,12 @@ Everything in a code block with a "$" infront are meant to be run in a terminal*
 6. Python keeps generating `__pycache__/` directories, and I don't want it:
 * Go to `.venv/bin/activate`
 * Paste in `export PYTHONDONTWRITEBYTECODE=1` somewhere
+
+7. Duplicate tool name sanity check
+```
+# something like this
+from collections import Counter
+tool_names = [tool.name for tool in TOOLS]
+dupes = [name for name, count in Counter(tool_names).items() if count > 1]
+assert not dupes, f"Duplicate tool names detected: {dupes}"
+```
